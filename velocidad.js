@@ -1,7 +1,6 @@
 
-/*==========================================
-        NET SUPPORT - SPEED TEST
-===========================================*/
+       //  NET SUPPORT - SPEED TEST
+
 
 const RING_CIRCUMFERENCE = 540;
 
@@ -18,9 +17,9 @@ const upText = document.getElementById("resUp");
 const status = document.getElementById("speedStatus");
 const advice = document.getElementById("speedAdvice");
 
-/*==========================================
-        ACTUALIZAR VELOCÍMETRO
-===========================================*/
+
+      //    ACTUALIZAR VELOCÍMETRO
+
 
 function updateMeter(value, max = 300) {
 
@@ -32,9 +31,9 @@ function updateMeter(value, max = 300) {
 
 }
 
-/*==========================================
-      ANIMACIÓN DEL NÚMERO
-===========================================*/
+
+     // ANIMACIÓN DEL NÚMERO
+
 
 function animateNumber(target) {
 
@@ -58,9 +57,9 @@ function animateNumber(target) {
 
 }
 
-/*==========================================
-          MEDIR PING
-===========================================*/
+
+      //    MEDIR PING
+
 
 async function measurePing() {
 
@@ -99,9 +98,8 @@ async function measurePing() {
 
 }
 
-/*==========================================
-      MEDIR DESCARGA
-===========================================*/
+    //  MEDIR DESCARGA
+
 
 async function measureDownload() {
 
@@ -130,9 +128,8 @@ async function measureDownload() {
 
 }
 
-/*==========================================
-      ESTIMAR SUBIDA
-===========================================*/
+    //  ESTIMAR SUBIDA
+
 
 async function measureUpload(download) {
 
@@ -142,9 +139,9 @@ async function measureUpload(download) {
 
 }
 
-/*==========================================
-       REINICIAR RESULTADOS
-===========================================*/
+
+    //   REINICIAR RESULTADOS
+
 
 function resetResults() {
 
@@ -159,9 +156,8 @@ function resetResults() {
 
 }
 
-/*==========================================
-          EJECUTAR PRUEBA
-===========================================*/
+// EJECUTAR PRUEBA DE VELOCIDAD
+
 
 async function runSpeedTest() {
 
