@@ -2,12 +2,12 @@ import { db, collection, addDoc } from "./firebase.js";
 
 console.log("✅ script.js cargado correctamente");
 
-
-// CONTROL DEL MODAL
-
+// ==========================================
+// CONTROL DEL MODAL DE PLANES
+// ==========================================
 
 function abrirModal(plan, velocidad, precio) {
-    console.log("Intentando abrir modal para:", plan);
+    console.log("Intentando abrir modal para:", plan, velocidad, precio);
 
     const modal = document.getElementById("modal");
     if (!modal) {
@@ -35,11 +35,11 @@ function cerrarModal() {
     }
 }
 
-// Asignar al objeto global 'window'
+// Exposiciones globales para handlers HTML onclick
 window.abrirModal = abrirModal;
 window.cerrarModal = cerrarModal;
 
-// Cierre al dar clic fuera de la caja modal
+// Cierre del modal al hacer clic fuera del contenido
 window.addEventListener("click", (e) => {
     const modal = document.getElementById("modal");
     if (e.target === modal) {
@@ -47,12 +47,172 @@ window.addEventListener("click", (e) => {
     }
 });
 
-// EMAILJS
+// ==========================================
+// CHATBOT Y MENÚ DE SOPORTE
+// ==========================================
+
+function abrirMenu() {
+    const menu = document.getElementById("menu");
+    if (menu) {
+        menu.classList.toggle("activo");
+    }
+}
+
+function abrirChatbot() {
+    const chatbot = document.getElementById("chatbot");
+    const menu = document.getElementById("menu");
+    if (chatbot) {
+        chatbot.style.display = "block";
+    }
+    if (menu) {
+        menu.classList.remove("activo"); // Cierra el menú desplegable al abrir el chat
+    }
+}
+
+function cerrarChat() {
+    const chatbot = document.getElementById("chatbot");
+    if (chatbot) {
+        chatbot.style.display = "none";
+    }
+}
+
+function enviarPregunta() {
+    const input = document.getElementById("pregunta");
+    if (!input) return;
+
+    const mensaje = input.value.trim();
+    if (mensaje === "") return;
+
+    const chat = document.getElementById("chat-body");
+    if (!chat) return;
+
+    // Mostrar mensaje del usuario
+    chat.innerHTML += `<div class="user">${mensaje}</div>`;
+
+    const texto = mensaje.toLowerCase();
+    let respuesta = "";
+
+    // PLANES
+    if (texto.includes("plan") || texto.includes("planes")) {
+        respuesta = `
+        Estos son nuestros planes de Internet:
+        <br><br>
+        📶 20 Mbps - RD$995.99/mes
+        <br>
+        📶 50 Mbps - RD$1,995.99/mes
+        <br>
+        📶 100 Mbps - RD$2,995.99/mes
+        <br>
+        📶 200 Mbps - RD$3,795.99/mes
+        <br>
+        📶 500 Mbps - RD$4,495.99/mes
+        <br>
+        📶 1000 Mbps - RD$6,995.99/mes
+        <br><br>
+        ¿Deseas contratar alguno?`;
+    }
+    // PRECIOS
+    else if (texto.includes("precio") || texto.includes("cuánto cuesta") || texto.includes("costo")) {
+        respuesta = `
+        Nuestros precios comienzan desde <b>RD$995.99</b> al mes.
+        <br><br>
+        Tenemos planes para hogares y empresas.`;
+    }
+    // COBERTURA
+    else if (texto.includes("cobertura") || texto.includes("disponibilidad")) {
+        respuesta = `
+        Para verificar la cobertura necesitamos tu provincia o dirección.
+        <br><br>
+        Escríbela y con gusto te ayudaremos.`;
+    }
+    // PAGO
+    else if (texto.includes("pagar") || texto.includes("factura") || texto.includes("pago")) {
+        respuesta = `
+        Puedes pagar tu factura mediante:
+        <br><br>
+        💳 Tarjeta de crédito o débito.
+        <br>
+        🏦 Transferencia bancaria.
+        <br>
+        💵 En nuestras oficinas autorizadas.`;
+    }
+    // FIBRA
+    else if (texto.includes("fibra") || texto.includes("cable")) {
+        respuesta = `
+        La fibra óptica ofrece:
+        <br><br>
+        ✅ Mayor velocidad.
+        <br>
+        ✅ Conexión más estable.
+        <br>
+        ✅ Menor latencia.
+        <br><br>
+        El cable coaxial suele ser más económico, pero puede perder rendimiento cuando hay muchos usuarios conectados.`;
+    }
+    // INTERNET LENTO
+    else if (texto.includes("internet lento") || texto.includes("lento")) {
+        respuesta = `
+        Puedes intentar lo siguiente:
+        <br><br>
+        1️⃣ Reinicia el módem durante 30 segundos.
+        <br>
+        2️⃣ Comprueba que los cables estén bien conectados.
+        <br>
+        3️⃣ Acércate al router si utilizas Wi-Fi.
+        <br>
+        4️⃣ Si el problema continúa, comunícate con soporte técnico.`;
+    }
+    // SALUDO
+    else if (texto.includes("hola") || texto.includes("buenas") || texto.includes("buenos días") || texto.includes("buenas tardes")) {
+        respuesta = "¡Hola! 👋 Bienvenido a NET SUPPORT. ¿En qué puedo ayudarte?";
+    }
+    // DESPEDIDA
+    else if (texto.includes("gracias") || texto.includes("adiós") || texto.includes("hasta luego")) {
+        respuesta = "¡Gracias por comunicarte con nosotros! 😊";
+    }
+    // DEFECTO
+    else {
+        respuesta = `
+        Lo siento, no entendí tu pregunta.
+        <br><br>
+        Puedes preguntarme sobre:
+        <br>
+        • Planes de Internet
+        <br>
+        • Precios
+        <br>
+        • Cobertura
+        <br>
+        • Pago de facturas
+        <br>
+        • Fibra óptica
+        <br>
+        • Soporte técnico`;
+    }
+
+    // Simular tiempo de respuesta del bot y desplazar scroll abajo
+    setTimeout(() => {
+        chat.innerHTML += `<div class="bot">${respuesta}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+    }, 600);
+
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// Asignar funciones del Chatbot al objeto global window
+window.abrirMenu = abrirMenu;
+window.abrirChatbot = abrirChatbot;
+window.cerrarChat = cerrarChat;
+window.enviarPregunta = enviarPregunta;
+
+// ==========================================
+// ENVÍO DE CORREO VIA EMAILJS
+// ==========================================
 
 async function enviarCorreo(nombre, email, plan, precio) {
     const fecha = new Date().toLocaleDateString("es-DO");
 
-    // Verificar si la librería de EmailJS existe en window
     if (typeof emailjs === "undefined") {
         console.warn("⚠️ EmailJS no está cargado en el HTML.");
         return;
@@ -76,932 +236,179 @@ async function enviarCorreo(nombre, email, plan, precio) {
     }
 }
 
+// ==========================================
+// MANEJO DE FORMULARIO & FIRESTORE
+// ==========================================
 
-// FORMULARIO & FIRESTORE
+document.addEventListener("DOMContentLoaded", () => {
+    const formulario = document.getElementById("formulario");
 
+    if (formulario) {
+        formulario.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-const formulario = document.getElementById("formulario");
-
-if (formulario) {
-    formulario.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const btnSubmit = formulario.querySelector('button[type="submit"]');
-        if (btnSubmit) {
-            btnSubmit.disabled = true;
-            btnSubmit.textContent = "Procesando...";
-        }
-
-        const nombre = document.getElementById("nombre").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const cedula = document.getElementById("cedula").value.trim();
-        const plan = document.getElementById("plan").value;
-        const precio = document.getElementById("precio").value;
-
-        try {
-            // 1. Guardar en Firestore
-            await addDoc(collection(db, "Solicitudes"), {
-                nombre: nombre,
-                email: email,
-                cedula: cedula,
-                plan: plan,
-                precio: precio,
-                fecha: new Date()
-            });
-
-            // 2. Intentar envío de correo (sin bloquear si falla)
-            enviarCorreo(nombre, email, plan, precio);
-
-            // 3. Confirmación al usuario
-            alert(`🎉 ¡Plan "${plan}" seleccionado exitosamente!\n\nUn asesor se pondrá en contacto contigo a la brevedad.`);
-
-            formulario.reset();
-            cerrarModal();
-
-        } catch (error) {
-            console.error("❌ Error en Firestore:", error);
-            alert("Ocurrió un error al procesar tu solicitud:\n\n" + error.message);
-        } finally {
+            const btnSubmit = formulario.querySelector('button[type="submit"]');
             if (btnSubmit) {
-                btnSubmit.disabled = false;
-                btnSubmit.textContent = "Solicitar Plan";
+                btnSubmit.disabled = true;
+                btnSubmit.textContent = "Procesando...";
             }
-        }
-    });
-}
 
+            const nombre = document.getElementById("nombre").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const cedula = document.getElementById("cedula").value.trim();
+            const plan = document.getElementById("plan").value;
+            const precio = document.getElementById("precio").value;
 
-// Validación de campos del formulario
-document.addEventListener("DOMContentLoaded", function () {
+            try {
+                await addDoc(collection(db, "Solicitudes"), {
+                    nombre: nombre,
+                    email: email,
+                    cedula: cedula,
+                    plan: plan,
+                    precio: precio,
+                    fecha: new Date()
+                });
 
-    // ==========================
-    // ELEMENTOS
-    // ==========================
+                await enviarCorreo(nombre, email, plan, precio);
 
-    const loginSection = document.getElementById("loginSection");
-    const registerSection = document.getElementById("registerSection");
-    const forgotSection = document.getElementById("forgotSection");
+                alert(`🎉 ¡Plan "${plan}" seleccionado exitosamente!\n\nUn asesor se pondrá en contacto contigo a la brevedad.`);
 
-    const showRegister = document.getElementById("showRegister");
-    const showForgot = document.getElementById("showForgot");
+                formulario.reset();
+                cerrarModal();
 
-    const backLogin1 = document.getElementById("backLogin1");
-    const backLogin2 = document.getElementById("backLogin2");
-
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const forgotForm = document.getElementById("forgotForm");
+            } catch (error) {
+                console.error("❌ Error en Firestore:", error);
+                alert("Ocurrió un error al procesar tu solicitud:\n\n" + error.message);
+            } finally {
+                if (btnSubmit) {
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = "Solicitar Plan";
+                }
+            }
+        });
+    }
 
     const loginPassword = document.getElementById("loginPassword");
     const togglePassword = document.getElementById("togglePassword");
 
-    // ==========================
-    // MOSTRAR / OCULTAR CONTRASEÑA
-    // ==========================
-
     if (togglePassword && loginPassword) {
-
-        togglePassword.addEventListener("click", function () {
-
+        togglePassword.addEventListener("click", () => {
             if (loginPassword.type === "password") {
-
                 loginPassword.type = "text";
                 togglePassword.textContent = "Ocultar";
-
             } else {
-
                 loginPassword.type = "password";
                 togglePassword.textContent = "Ver";
-
             }
-
         });
-
     }
-
-    // ==========================
-    // CAMBIAR ENTRE SECCIONES
-    // ==========================
-
-    function mostrarLogin() {
-
-        loginSection.classList.remove("login-hidden");
-        registerSection.classList.add("login-hidden");
-        forgotSection.classList.add("login-hidden");
-
-    }
-
-    function mostrarRegistro() {
-
-        loginSection.classList.add("login-hidden");
-        registerSection.classList.remove("login-hidden");
-        forgotSection.classList.add("login-hidden");
-
-    }
-
-    function mostrarRecuperar() {
-
-        loginSection.classList.add("login-hidden");
-        registerSection.classList.add("login-hidden");
-        forgotSection.classList.remove("login-hidden");
-
-    }
-
-    showRegister.addEventListener("click", mostrarRegistro);
-
-    showForgot.addEventListener("click", mostrarRecuperar);
-
-    backLogin1.addEventListener("click", mostrarLogin);
-
-    backLogin2.addEventListener("click", mostrarLogin);
-
-    // ==========================
-    // LOGIN
-    // ==========================
-
-    loginForm.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
-        const email = document.getElementById("loginEmail").value.trim();
-        const password = loginPassword.value.trim();
-
-        if (email === "" || password === "") {
-
-            alert("Por favor complete todos los campos.");
-            return;
-
-        }
-
-        console.log("Iniciando sesión...");
-        console.log(email);
-        console.log(password);
-
-        // Aquí irá Firebase Authentication
-
-    });
-
-    // ==========================
-    // REGISTRO
-    // ==========================
-
-    registerForm.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
-        const nombre = document.getElementById("registerName").value.trim();
-        const email = document.getElementById("registerEmail").value.trim();
-        const password = document.getElementById("registerPassword").value;
-        const confirmar = document.getElementById("confirmPassword").value;
-
-        if (nombre === "" || email === "" || password === "" || confirmar === "") {
-
-            alert("Complete todos los campos.");
-            return;
-
-        }
-
-        if (password !== confirmar) {
-
-            alert("Las contraseñas no coinciden.");
-            return;
-
-        }
-
-        console.log("Nuevo usuario");
-        console.log(nombre);
-        console.log(email);
-
-        // Aquí irá Firebase Authentication
-
-    });
-
-    // ==========================
-    // RECUPERAR CONTRASEÑA
-    // ==========================
-
-    forgotForm.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
-        const email = document.getElementById("forgotEmail").value.trim();
-
-        if (email === "") {
-
-            alert("Ingrese su correo electrónico.");
-            return;
-
-        }
-
-        console.log("Enviar enlace a:", email);
-
-        // Aquí irá Firebase Password Reset
-
-    });
-
 });
 
-//Panel
-
 // ==========================================
-// SISTEMA ADMINISTRATIVO NET SUPPORT
+// SISTEMA ADMINISTRATIVO (LOCAL STORAGE)
 // ==========================================
 
-
-// GENERAR ID
-
-function generarID(prefijo){
-
+function generarID(prefijo) {
     return prefijo + "-" + Date.now();
-
 }
 
-
-
-// ==========================================
-// BASE DE DATOS LOCAL
-// ==========================================
-
-
-function obtenerDatos(tabla){
-
+function obtenerDatos(tabla) {
     let datos = localStorage.getItem(tabla);
-
     return datos ? JSON.parse(datos) : [];
-
 }
 
-
-
-function guardarDatos(tabla, datos){
-
-    localStorage.setItem(
-        tabla,
-        JSON.stringify(datos)
-    );
-
+function guardarDatos(tabla, datos) {
+    localStorage.setItem(tabla, JSON.stringify(datos));
 }
 
-
-
-// ==========================================
-// REGISTRAR CLIENTE
-// ==========================================
-
-
-function registrarCliente(cliente){
-
+function cargarClientes() {
+    let tabla = document.getElementById("admin-clientes-list");
+    if (!tabla) return;
 
     let clientes = obtenerDatos("clientes");
+    tabla.innerHTML = "";
 
+    clientes.forEach(c => {
+        tabla.innerHTML += `
+        <tr>
+            <td>${c.id}</td>
+            <td>${c.nombre}</td>
+            <td>${c.telefono}</td>
+            <td>${c.plan}</td>
+            <td><span class="estado-activo">${c.estado}</span></td>
+            <td>${c.fechaInstalacion || "-"}</td>
+            <td><button onclick="verCliente('${c.id}')">Ver</button></td>
+        </tr>`;
+    });
+}
 
-    cliente.id = generarID("CLI");
+function cargarTickets() {
+    let tabla = document.getElementById("admin-tickets-list");
+    if (!tabla) return;
 
-    cliente.fechaRegistro =
-    new Date().toLocaleDateString();
+    let tickets = obtenerDatos("tickets");
+    tabla.innerHTML = "";
 
+    tickets.forEach(t => {
+        tabla.innerHTML += `
+        <tr>
+            <td>${t.id}</td>
+            <td>${t.cliente}</td>
+            <td>${t.problema}</td>
+            <td>${t.prioridad}</td>
+            <td>
+                <select onchange="cambiarEstadoTicket('${t.id}', this.value)">
+                    <option ${t.estado === "Pendiente" ? "selected" : ""}>Pendiente</option>
+                    <option ${t.estado === "En proceso" ? "selected" : ""}>En proceso</option>
+                    <option ${t.estado === "Resuelto" ? "selected" : ""}>Resuelto</option>
+                </select>
+            </td>
+            <td>${t.tecnico}</td>
+            <td>${t.fecha}</td>
+        </tr>`;
+    });
+}
 
-    cliente.estado="Activo";
+function cargarAverias() {
+    let tabla = document.getElementById("admin-averias-list");
+    if (!tabla) return;
 
+    let averias = obtenerDatos("averias");
+    tabla.innerHTML = "";
 
-    clientes.push(cliente);
+    averias.forEach(a => {
+        tabla.innerHTML += `
+        <tr>
+            <td>${a.id}</td>
+            <td>${a.cliente}</td>
+            <td>${a.zona}</td>
+            <td>${a.descripcion}</td>
+            <td>${a.estado}</td>
+            <td><button onclick="resolverAveria('${a.id}')">Resolver</button></td>
+        </tr>`;
+    });
+}
 
+function actualizarDashboard() {
+    let totalClientes = document.getElementById("totalClientes");
+    let clientesActivos = document.getElementById("clientesActivos");
+    let ticketsPendientes = document.getElementById("ticketsPendientes");
+    let ticketsResueltos = document.getElementById("ticketsResueltos");
 
-    guardarDatos(
-        "clientes",
-        clientes
-    );
+    if (!totalClientes) return;
 
+    let clientes = obtenerDatos("clientes");
+    let tickets = obtenerDatos("tickets");
 
+    totalClientes.innerHTML = clientes.length;
+    clientesActivos.innerHTML = clientes.filter(c => c.estado === "Activo").length;
+    ticketsPendientes.innerHTML = tickets.filter(t => t.estado !== "Resuelto").length;
+    ticketsResueltos.innerHTML = tickets.filter(t => t.estado === "Resuelto").length;
+}
+
+window.addEventListener("load", () => {
     cargarClientes();
-
+    cargarTickets();
+    cargarAverias();
     actualizarDashboard();
-
-
-}
-
-
-
-
-
-
-// EJEMPLO DE CLIENTE
-
-/*
-registrarCliente({
-
-nombre:"Juan Pérez",
-
-telefono:"8095555555",
-
-email:"juan@gmail.com",
-
-direccion:"Santo Domingo",
-
-plan:"Premium 200 Mbps",
-
-fechaInstalacion:"05/08/2026"
-
 });
-*/
-
-
-
-
-
-
-
-// ==========================================
-// REGISTRAR TICKET SOPORTE
-// ==========================================
-
-
-function registrarTicket(ticket){
-
-
-let tickets =
-obtenerDatos("tickets");
-
-
-
-ticket.id =
-generarID("TCK");
-
-
-ticket.fecha =
-new Date().toLocaleDateString();
-
-
-
-ticket.estado="Pendiente";
-
-
-ticket.tecnico="Sin asignar";
-
-
-
-tickets.push(ticket);
-
-
-
-guardarDatos(
-"tickets",
-tickets
-);
-
-
-
-cargarTickets();
-
-actualizarDashboard();
-
-
-
-}
-
-
-
-
-
-
-/*
-
-Ejemplo:
-
-registrarTicket({
-
-cliente:"Juan Pérez",
-
-problema:"Internet lento",
-
-prioridad:"Alta"
-
-});
-
-*/
-
-
-
-
-
-
-
-// ==========================================
-// REGISTRAR AVERIA
-// ==========================================
-
-
-function registrarAveria(averia){
-
-
-let averias =
-obtenerDatos("averias");
-
-
-
-averia.id =
-generarID("AVG");
-
-
-
-averia.fecha =
-new Date().toLocaleDateString();
-
-
-
-averia.estado="Pendiente";
-
-
-
-averias.push(averia);
-
-
-
-guardarDatos(
-"averias",
-averias
-);
-
-
-
-cargarAverias();
-
-actualizarDashboard();
-
-
-}
-
-
-
-
-
-
-
-
-
-// ==========================================
-// MOSTRAR CLIENTES
-// ==========================================
-
-
-function cargarClientes(){
-
-
-let tabla =
-document.getElementById(
-"admin-clientes-list"
-);
-
-
-
-if(!tabla) return;
-
-
-
-let clientes =
-obtenerDatos("clientes");
-
-
-
-tabla.innerHTML="";
-
-
-
-clientes.forEach(c=>{
-
-
-tabla.innerHTML += `
-
-
-<tr>
-
-
-<td>${c.id}</td>
-
-
-<td>${c.nombre}</td>
-
-
-<td>${c.telefono}</td>
-
-
-<td>${c.plan}</td>
-
-
-
-<td>
-
-<span class="estado-activo">
-
-${c.estado}
-
-</span>
-
-
-</td>
-
-
-
-<td>${c.fechaInstalacion || "-"}</td>
-
-
-
-<td>
-
-
-<button onclick="verCliente('${c.id}')">
-
-Ver
-
-</button>
-
-
-</td>
-
-
-
-</tr>
-
-
-`;
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-// ==========================================
-// MOSTRAR TICKETS
-// ==========================================
-
-
-function cargarTickets(){
-
-
-let tabla =
-document.getElementById(
-"admin-tickets-list"
-);
-
-
-
-if(!tabla) return;
-
-
-
-let tickets =
-obtenerDatos("tickets");
-
-
-
-tabla.innerHTML="";
-
-
-
-tickets.forEach(t=>{
-
-
-tabla.innerHTML+=`
-
-
-<tr>
-
-
-<td>${t.id}</td>
-
-
-<td>${t.cliente}</td>
-
-
-<td>${t.problema}</td>
-
-
-<td>${t.prioridad}</td>
-
-
-
-<td>
-
-
-<select onchange="cambiarEstadoTicket('${t.id}',this.value)">
-
-
-<option ${t.estado=="Pendiente"?"selected":""}>
-Pendiente
-</option>
-
-
-<option ${t.estado=="En proceso"?"selected":""}>
-En proceso
-</option>
-
-
-
-<option ${t.estado=="Resuelto"?"selected":""}>
-Resuelto
-</option>
-
-
-
-</select>
-
-
-</td>
-
-
-
-<td>${t.tecnico}</td>
-
-
-<td>${t.fecha}</td>
-
-
-
-</tr>
-
-
-`;
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-
-// ==========================================
-// CAMBIAR ESTADO TICKET
-// ==========================================
-
-
-function cambiarEstadoTicket(id,estado){
-
-
-let tickets =
-obtenerDatos("tickets");
-
-
-
-let ticket =
-tickets.find(t=>t.id===id);
-
-
-
-if(ticket){
-
-
-ticket.estado=estado;
-
-
-}
-
-
-
-guardarDatos(
-"tickets",
-tickets
-);
-
-
-
-cargarTickets();
-
-actualizarDashboard();
-
-
-}
-
-
-
-
-
-
-
-
-// ==========================================
-// MOSTRAR AVERIAS
-// ==========================================
-
-
-function cargarAverias(){
-
-
-let tabla =
-document.getElementById(
-"admin-averias-list"
-);
-
-
-
-if(!tabla)return;
-
-
-
-let averias =
-obtenerDatos("averias");
-
-
-
-tabla.innerHTML="";
-
-
-
-averias.forEach(a=>{
-
-
-tabla.innerHTML+=`
-
-
-<tr>
-
-
-<td>${a.id}</td>
-
-
-<td>${a.cliente}</td>
-
-
-<td>${a.zona}</td>
-
-
-<td>${a.descripcion}</td>
-
-
-
-<td>${a.estado}</td>
-
-
-
-<td>
-
-<button onclick="resolverAveria('${a.id}')">
-
-Resolver
-
-</button>
-
-</td>
-
-
-</tr>
-
-
-`;
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-
-
-function resolverAveria(id){
-
-
-let averias =
-obtenerDatos("averias");
-
-
-let averia =
-averias.find(a=>a.id===id);
-
-
-
-if(averia){
-
-averia.estado="Resuelta";
-
-}
-
-
-
-guardarDatos(
-"averias",
-averias
-);
-
-
-
-cargarAverias();
-
-
-}
-
-
-
-
-
-
-
-
-
-// ==========================================
-// DASHBOARD
-// ==========================================
-
-
-function actualizarDashboard(){
-
-
-
-let clientes =
-obtenerDatos("clientes");
-
-
-let tickets =
-obtenerDatos("tickets");
-
-
-let resueltos =
-tickets.filter(
-t=>t.estado==="Resuelto"
-).length;
-
-
-
-let pendientes =
-tickets.filter(
-t=>t.estado!=="Resuelto"
-).length;
-
-
-
-document.getElementById(
-"totalClientes"
-).innerHTML=
-clientes.length;
-
-
-
-document.getElementById(
-"clientesActivos"
-).innerHTML=
-clientes.filter(
-c=>c.estado==="Activo"
-).length;
-
-
-
-document.getElementById(
-"ticketsPendientes"
-).innerHTML=
-pendientes;
-
-
-
-document.getElementById(
-"ticketsResueltos"
-).innerHTML=
-resueltos;
-
-
-
-}
-
-
-
-
-
-// ==========================================
-// INICIAR PANEL
-// ==========================================
-
-
-window.onload=function(){
-
-
-cargarClientes();
-
-
-cargarTickets();
-
-
-cargarAverias();
-
-
-actualizarDashboard();
-
-
-};
