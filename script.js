@@ -407,7 +407,7 @@ function actualizarDashboard() {
     ticketsPendientes.innerHTML = tickets.filter(t => t.estado !== "Resuelto").length;
     ticketsResueltos.innerHTML = tickets.filter(t => t.estado === "Resuelto").length;
 }
-
+ 
 window.addEventListener("load", () => {
     cargarClientes();
     cargarTickets();
