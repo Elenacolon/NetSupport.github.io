@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Panel</title>
+
+<link rel="stylesheet" href="panel.css">
+
+</head>
+
+
+<body>
+
+
+<div id="app">
+
+
+<!-- ================= ADMIN ================= -->
+
+<div id="adminPanel" class="layout">
+
+
+<aside class="sidebar">
+
+<h2>👨‍💼 Admin</h2>
+
+<ul>
+
+<li onclick="mostrar('dashboard')">🏠 Dashboard</li>
+<li onclick="mostrar('clientes')">👥 Clientes</li>
+<li onclick="mostrar('tecnicos')">🛠 Técnicos</li>
+<li onclick="mostrar('planes')">📦 Planes</li>
+<li onclick="mostrar('contratos')">📄 Contratos</li>
+<li onclick="mostrar('solicitudes')">🎫 Solicitudes</li>
+<li onclick="mostrar('seguimiento')">📍 Seguimiento</li>
+<li onclick="mostrar('facturas')">💳 Facturas</li>
+<li onclick="mostrar('config')">⚙ Configuración</li>
+
+<li onclick="cerrarSesion()">
+🚪 Cerrar Sesión
+</li>
+
+</ul>
+
+</aside>
+
+
+
+<main class="contenido">
+
+
+<h1 id="titulo">
+Dashboard
+</h1>
+
+
+<div id="dashboard" class="seccion">
+
+
+<div class="tarjetas">
+
+
+<div class="card">
+<h3>Clientes registrados</h3>
+<b id="clientes">0</b>
+</div>
+
+
+<div class="card">
+<h3>Técnicos activos</h3>
+<b id="tecnicos">0</b>
+</div>
+
+
+<div class="card">
+<h3>Planes contratados</h3>
+<b id="planes">0</b>
+</div>
+
+
+<div class="card">
+<h3>Solicitudes pendientes</h3>
+<b id="solicitudes">0</b>
+</div>
+
+
+<div class="card">
+<h3>Facturas vencidas</h3>
+<b id="facturas">0</b>
+</div>
+
+
+<div class="card">
+<h3>Instalaciones hoy</h3>
+<b id="instalaciones">0</b>
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<div id="clientes" class="seccion oculto">
+<h2>👥 Clientes</h2>
+<p>Gestión de clientes</p>
+</div>
+
+
+
+<div id="tecnicos" class="seccion oculto">
+<h2>🛠 Técnicos</h2>
+<p>Gestión de técnicos</p>
+</div>
+
+
+<div id="planes" class="seccion oculto">
+<h2>📦 Planes</h2>
+<p>Administrar planes</p>
+</div>
+
+
+<div id="solicitudes" class="seccion oculto">
+<h2>🎫 Solicitudes</h2>
+<p>Solicitudes pendientes</p>
+</div>
+
+
+</main>
+
+
+</div>
+
+
+
+<!-- ================= CLIENTE ================= -->
+
+
+<div id="clientePanel" class="layout">
+
+
+<aside class="sidebar">
+
+
+<h2>👤 Cliente</h2>
+
+
+<ul>
+
+<li onclick="mostrarCliente('inicio')">
+🏠 Inicio
+</li>
+
+
+<li onclick="mostrarCliente('plan')">
+📦 Mi Plan
+</li>
+
+
+<li onclick="mostrarCliente('cuenta')">
+💳 Estado Cuenta
+</li>
+
+
+<li onclick="mostrarCliente('facturas')">
+📄 Facturas
+</li>
+
+
+<li onclick="mostrarCliente('soporte')">
+🎫 Soporte
+</li>
+
+
+<li onclick="mostrarCliente('perfil')">
+👤 Mi Perfil
+</li>
+
+
+<li onclick="cerrarSesion()">
+🚪 Salir
+</li>
+
+
+</ul>
+
+
+</aside>
+
+
+
+
+<main class="contenido">
+
+
+<h1>
+Bienvenido 
+<span id="nombreCliente"></span>
+</h1>
+
+
+<div id="clienteContenido">
+
+
+</div>
+
+
+</main>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script type="module" src="panel.js"></script>
+
+</body>
+</html>
