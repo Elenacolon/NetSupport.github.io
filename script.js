@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const precio = document.getElementById("precio").value;
 
             try {
+                // 1. Guardar en Firestore
                 await addDoc(collection(db, "Solicitudes"), {
                     nombre: nombre,
                     email: email,
@@ -269,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     fecha: new Date()
                 });
 
+                // 2. Enviar correo por EmailJS
                 await enviarCorreo(nombre, email, plan, precio);
 
                 alert(`🎉 ¡Plan "${plan}" seleccionado exitosamente!\n\nUn asesor se pondrá en contacto contigo a la brevedad.`);
@@ -277,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cerrarModal();
 
             } catch (error) {
-                console.error("❌ Error en Firestore:", error);
+                console.error("❌ Error al procesar la solicitud:", error);
                 alert("Ocurrió un error al procesar tu solicitud:\n\n" + error.message);
             } finally {
                 if (btnSubmit) {

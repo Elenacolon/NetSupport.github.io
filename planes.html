@@ -102,22 +102,22 @@
             </p>
 
             <form id="formulario">
-                <input type="hidden" id="plan">
-                <input type="hidden" id="precio">
+                <input type="hidden" id="plan" name="plan">
+                <input type="hidden" id="precio" name="precio">
 
                 <div class="campo">
                     <label for="nombre">Nombre completo</label>
-                    <input type="text" id="nombre" placeholder="Ingrese su nombre" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
                 </div>
 
                 <div class="campo">
                     <label for="email">Correo electrónico</label>
-                    <input type="email" id="email" placeholder="ejemplo@gmail.com" required>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@gmail.com" required>
                 </div>
 
                 <div class="campo">
                     <label for="cedula">Cédula</label>
-                    <input type="text" id="cedula" placeholder="000-0000000-0" maxlength="13" required>
+                    <input type="text" id="cedula" name="cedula" placeholder="000-0000000-0" maxlength="13" required>
                 </div>
 
                 <button type="submit" class="btnEnviar">
