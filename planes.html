@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planes</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 <body>
@@ -25,18 +24,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </nav>
     </header>
     
-    <img src="img/Planes.jpeg" alt="Imagen planes" class="planes-image">
+    <img src="css/img/Planes.jpeg" alt="Imagen planes" class="planes-image">
 
   <section id="Planes">
     <h1>Planes Disponibles</h1>
 
-    <div class="cuadricula-planes">
+<div class="cuadricula-planes">
 
         <div class="plan-card">
     <h3>Plan Básico</h3>
     <p class="Velocidad">20 Mbps</p>
     <p class="precio">RD$995.99/mes</p>
-    <button onclick="abrirModal('Plan Básico','20 Mbps')">
+    <button onclick="abrirModal('Plan Básico','20 Mbps', 'RD$995.99/mes')">
         Contratar
     </button>
 </div>
@@ -80,7 +79,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <div class="plan-card">
     <h3>Plan Gigabit</h3>
     <p class="Velocidad">1000 Mbps</p>
-    <p class="precio">RD$6,99.99/mes</p>
+    <p class="precio">RD$6,999.99/mes</p>
    <button onclick="abrirModal('Plan Gigabit','1000 Mbps')">
     Contratar
 </button>
@@ -154,8 +153,6 @@ emailjs.init({
     publicKey: "WGFZ9wdHzSVkrI49I",
 });
 </script>
-
-<script src="script.js"></script>
 
 </body>
 </html>
